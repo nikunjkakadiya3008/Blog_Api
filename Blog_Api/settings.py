@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'django_filters',
     'core',
+    'user',
+    'post'
 
 ]
 
@@ -50,10 +53,21 @@ REST_FRAMEWORK ={
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',  # This should be added
     ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 10,/
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '1000/day',
+        'user': '10000/day'
+    }
 }
 
 SIMPLE_JWT = {
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=25),
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=20),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -67,7 +81,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.middleware.BlacklistTokenMiddleware'
+    # 'core.middleware.BlacklistTokenMiddleware'
 ]
 
 ROOT_URLCONF = 'Blog_Api.urls'
