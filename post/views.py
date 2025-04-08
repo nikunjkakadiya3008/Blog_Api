@@ -8,7 +8,7 @@ from rest_framework import generics ,status
 from rest_framework.response import Response
 
 # from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import filters
 from datetime import datetime
 from . import serializers
@@ -26,11 +26,11 @@ class PostView(viewsets.ModelViewSet):
     # filterset_fields = ['Category','author']
     ordering_fields = ['author', 'created_at','Category']
     filterset_class = MyModelFilter
-    pagination_class = LimitOffsetPagination
+    pagination_class = PageNumberPagination
 
     def perform_create(self, serializer):
         serializer.save(user_id = self.request.user.id)
-        
+
 
     def get_permissions(self):
         permission_classes = [AllowAny]
@@ -38,10 +38,11 @@ class PostView(viewsets.ModelViewSet):
             return [permission() for permission in permission_classes]
         return [permission() for permission in self.permission_classes]
 
+    def get_queryset(self):
+        return models.Post.objects.filter(status ='published')
     # def get_queryset(self):
     #     queryset = models.Post.objects.all()
     #     category = self.request.query_params.get('category', None)
-
     #     if category is not None:
     #         print
     #         category_list = models.Category.objects.get(name = category)

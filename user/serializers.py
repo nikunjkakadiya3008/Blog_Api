@@ -21,16 +21,4 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return user
 
-class CredentialsSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length = 255)
-    password = serializers.CharField(max_length = 255)
-
-    def create(self, validated_data):
-        return super().create(validated_data)
-
-class RefreshTokenSerializer(serializers.Serializer):
-    refresh_token = serializers.CharField(max_length = 500)
-
-    def create(self, validated_data):
-        return super().create(validated_data)
 

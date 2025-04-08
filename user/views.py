@@ -10,9 +10,8 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
-from .serializers import UserSerializer , CredentialsSerializer , RefreshTokenSerializer
+from .serializers import UserSerializer
 from rest_framework.throttling import UserRateThrottle
-
 
 
 class RegisterUser(generics.CreateAPIView):

@@ -44,15 +44,15 @@ class PostSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         categories = validated_data.pop('Category', [])
-        for category in categories:
-            exist = models.Category.objects.filter(pk =category).exists()
-            print(exist)
-            if not exist:
-                msg =_("Provided Category is not Valid")
-                raise serializers.ValidationError(msg)
+        # print(categories)
+        # for category in categories:
+        #     exist = models.Category.objects.filter(pk =category).exists()
+        #     if not exist:
+        #         msg =_("Provided Category is not Valid")
+        #         raise serializers.ValidationError(msg)
         post = models.Post.objects.create(**validated_data)
         post.created_at = datetime.now()
-        post.Category.set(category)
+        post.Category.set(categories)
         # self._get_or_create_category(category  , post)
 
         return post
